@@ -55,12 +55,14 @@ jobs:
       # 8️⃣ Build and push Docker image
       - name: Build and push Docker image to ECR
         env:
-          ECR_REGISTRY: 514867319424.dkr.ecr.us-east-1.amazonaws.com
-          ECR_REPOSITORY: githubactions/demo
+          ECR_REGISTRY: 514867319424.dkr.ecr.us-east-1.amazonaws.com   #replace this with new ECR 
+          ECR_REPOSITORY: githubactions/demo                           #Replace the ECR name
+          IMAGE_NAME: aman-demo-image 
           IMAGE_TAG: ${{ github.run_number }}
         run: |
           echo "🔨 Building Docker image..."
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $IMAGE_NAME .
+          docker tag $IMAGE_NAME:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "🚀 Pushing image to ECR..."
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "✅ Successfully pushed: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
